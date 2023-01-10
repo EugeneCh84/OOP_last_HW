@@ -21,7 +21,7 @@ class Window(QMainWindow):
     def __init__(self, parent=None):
         """Initializer."""
         super().__init__(parent)
-        self.setWindowTitle("RP Contacts")
+        self.setWindowTitle("Phone_contacts")
         self.resize(650, 350)
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)

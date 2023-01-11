@@ -17,6 +17,9 @@ from PyQt6.QtWidgets import (
     QTableView,
     QVBoxLayout,
     QWidget,
+    QComboBox,
+    QLabel
+    
 )
 
         
@@ -50,18 +53,32 @@ class Window(QMainWindow):
         self.deleteButton.clicked.connect(self.deleteContact)
         self.clearAllButton = QPushButton("Clear All")
         self.clearAllButton.clicked.connect(self.clearContacts)
+        self.search_field= QLineEdit()
+        self.search_field.textChanged.connect(self.contactsModel.model.setFilterRegularExpression)
+        self.filter_label = QLabel('Search/Filter Mask')
+        self.filter_option = QComboBox()
+        self.filter_option.addItems(['ID', 'Name', 'Phone', 'Email'])
+        self.filter_option.currentIndexChanged.connect(self.contactsModel.model.setFilterKeyColumn)
+
         # Lay out the GUI
         layout = QVBoxLayout()
         layout.addWidget(self.addButton)
         layout.addWidget(self.deleteButton)
         layout.addStretch()
+        layout.addWidget(self.filter_label)
+        layout.addWidget(self.filter_option)
+        layout.addWidget(self.search_field)
+        layout.addStretch()
         layout.addWidget(self.clearAllButton)
+        #search_layout = QHBoxLayout()
+        #search_layout.addWidget(self.sear_field)
         self.layout.addWidget(self.table)
         self.layout.addLayout(layout)
+        #layout.addLayout(search_layout)
 
     def openAddDialog(self):
         """Open the Add Contact dialog."""
-        dialog = AddDialog(self)
+        dialog = AddDialog()
         if dialog.exec() == QDialog.DialogCode.Accepted:
             self.contactsModel.addContact(dialog.data)
             print('True')
